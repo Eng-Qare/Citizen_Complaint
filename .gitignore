@@ -1,0 +1,16 @@
+/.idea
+/vendor
+/node_modules
+/logs
+/uploads/complaints/*
+!/uploads/complaints/.gitkeep
+.env
+.env.local
+.DS_Store
+Thumbs.db
+/.vscode
+/.history
+/.cache
+*.log
+composer.lock
+phpunit.xml
