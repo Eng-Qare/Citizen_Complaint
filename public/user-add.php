@@ -37,24 +37,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 include __DIR__ . '/../includes/header.php';
 include __DIR__ . '/../includes/navbar.php';
+include __DIR__ . '/../includes/header.php';
+include __DIR__ . '/../includes/navbar.php';
 
-if ($error) echo '<p style="color:red;">' . htmlspecialchars($error) . '</p>';
+if ($error) echo '<div class="alert alert-danger">' . htmlspecialchars($error) . '</div>';
 ?>
-<h2>Add User</h2>
-<form method="post">
-    <label>Full name<br><input name="full_name" required></label><br>
-    <label>Email<br><input type="email" name="email" required></label><br>
-    <label>Phone<br><input name="phone"></label><br>
-    <label>Password<br><input type="password" name="password" required></label><br>
-    <label>Role<br>
-        <select name="role_id">
-            <option value="1">Admin</option>
-            <option value="2">Dept Head / Staff</option>
-            <option value="3">Officer</option>
-            <option value="4">Citizen</option>
-        </select>
-    </label><br>
-    <button type="submit">Create</button>
-</form>
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h3 class="card-title">Add User</h3>
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Full name</label>
+                <input class="form-control" name="full_name" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input class="form-control" type="email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Phone</label>
+                <input class="form-control" name="phone">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input class="form-control" type="password" name="password" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Role</label>
+                <select class="form-select" name="role_id">
+                    <option value="1">Admin</option>
+                    <option value="2">Dept Head</option>
+                    <option value="3">Officer</option>
+                    <option value="4">Citizen</option>
+                </select>
+            </div>
+            <div class="d-grid"><button class="btn btn-primary" type="submit">Create</button></div>
+        </form>
+    </div>
+</div>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>

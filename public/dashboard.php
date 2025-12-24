@@ -18,21 +18,67 @@ if ($role_id == 1) {
 
 include __DIR__ . '/../includes/header.php';
 include __DIR__ . '/../includes/navbar.php';
+include __DIR__ . '/../includes/header.php';
+include __DIR__ . '/../includes/navbar.php';
 
-echo "<h2>Welcome, " . htmlspecialchars($user['full_name']) . "</h2>";
-if ($role_id == 1) {
-    echo "<p>Role: Admin</p>";
-    echo "<p>Total users: " . (int)$counts['users'] . "</p>";
-    echo "<p>Total complaints: " . (int)$counts['complaints'] . "</p>";
-} elseif ($role_id == 2) {
-    echo "<p>Role: Dept Head / Staff</p>";
-    echo "<p>Total complaints: " . (int)$counts['complaints'] . "</p>";
-} else {
-    echo "<p>Role: Citizen</p>";
-    // count own complaints via citizens table
-    $s = $conn->prepare('SELECT c.complaint_id FROM complaints c JOIN citizens ci ON c.citizen_id = ci.citizen_id WHERE ci.user_id = ?');
-    $s->bind_param('i', $user['user_id']); $s->execute(); $own_count = $s->get_result()->num_rows;
-    echo "<p>Your complaints: " . (int)$own_count . "</p>";
-}
+?>
+<div class="row g-4">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2>Welcome, <?=htmlspecialchars($user['full_name'])?></h2>
+            <small class="text-muted">Role: <?= ($role_id==1)?'Admin':(($role_id==2)?'Staff':'Citizen') ?></small>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Total Complaints</h5>
+                <p class="display-6 mb-0"><?= (int)$counts['complaints'] ?></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Total Users</h5>
+                <p class="display-6 mb-0"><?= (int)$counts['users'] ?></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 mt-2">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">Recent Complaints</h5>
+                <?php
+                $q2 = $conn->prepare('SELECT c.complaint_id, s.service_name, a.district_name, a.neighborhood_name, c.submitted_at, c.current_status_id FROM complaints c JOIN services s ON c.service_id=s.service_id JOIN areas a ON c.area_id=a.area_id ORDER BY c.submitted_at DESC LIMIT 10');
+                $q2->execute(); $r2 = $q2->get_result();
+                if ($r2->num_rows): ?>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover datatable">
+                            <thead><tr><th>ID</th><th>Service</th><th>Area</th><th>Submitted</th><th>Status</th></tr></thead>
+                            <tbody>
+                            <?php while ($row = $r2->fetch_assoc()): ?>
+                                <tr>
+                                    <td><?= (int)$row['complaint_id'] ?></td>
+                                    <td><?= htmlspecialchars($row['service_name']) ?></td>
+                                    <td><?= htmlspecialchars($row['district_name'].' - '.$row['neighborhood_name']) ?></td>
+                                    <td><?= htmlspecialchars($row['submitted_at']) ?></td>
+                                    <td><?= (int)$row['current_status_id'] ?></td>
+                                </tr>
+                            <?php endwhile; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                <?php else: ?>
+                    <p class="text-muted">No recent complaints.</p>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php
 
 include __DIR__ . '/../includes/footer.php';

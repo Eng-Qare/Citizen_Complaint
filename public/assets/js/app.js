@@ -84,4 +84,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
         });
     }
+
+    // Initialize DataTables for tables with class 'datatable' (if jQuery & DataTables present)
+    if (typeof $ !== 'undefined' && $.fn.dataTable) {
+        $('.datatable').DataTable({
+            dom: 'Bfrtip',
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+            responsive: true
+        });
+    }
 });

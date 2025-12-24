@@ -18,17 +18,32 @@ $res = $q->get_result();
 
 include __DIR__ . '/../includes/header.php';
 include __DIR__ . '/../includes/navbar.php';
+?>
+<h2>Complaint Tracking</h2>
+<div class="card shadow-sm">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover datatable">
+                <thead class="table-light"><tr><th>ID</th><th>Service</th><th>Area</th><th>Submitted</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>
+                <?php while ($r = $res->fetch_assoc()):
+                        $id = (int)$r['complaint_id'];
+                ?>
+                <tr>
+                    <td><?= $id ?></td>
+                    <td><?= htmlspecialchars($r['service_name']) ?></td>
+                    <td><?= htmlspecialchars($r['district_name'] . ' - ' . $r['neighborhood_name']) ?></td>
+                    <td><?= htmlspecialchars($r['submitted_at']) ?></td>
+                    <td><?= (int)$r['current_status_id'] ?></td>
+                    <td><a class="btn btn-sm btn-outline-primary" href="complaint-view.php?id=<?= $id ?>">View</a></td>
+                </tr>
+                <?php endwhile; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
-echo '<h2>Complaint Tracking</h2>';
-echo '<table border="1" cellpadding="6" cellspacing="0" width="100%"><tr><th>ID</th><th>Service</th><th>Area</th><th>Submitted</th><th>Status</th><th>Actions</th></tr>';
-while ($r = $res->fetch_assoc()) {
-    $id = (int)$r['complaint_id'];
-    $service = htmlspecialchars($r['service_name']);
-    $area = htmlspecialchars($r['district_name'] . ' - ' . $r['neighborhood_name']);
-    $submitted = htmlspecialchars($r['submitted_at']);
-    $status = (int)$r['current_status_id'];
-    echo "<tr><td>$id</td><td>$service</td><td>$area</td><td>$submitted</td><td>$status</td><td><a href=\"complaint-view.php?id=$id\">View</a></td></tr>";
-}
-echo '</table>';
+<?php
 
 include __DIR__ . '/../includes/footer.php';

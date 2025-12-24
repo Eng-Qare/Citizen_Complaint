@@ -13,9 +13,11 @@ $q->execute(); $res = $q->get_result();
 include __DIR__ . '/../includes/header.php';
 include __DIR__ . '/../includes/navbar.php';
 
-echo '<h2>Users</h2>';
-echo '<p><a href="user-add.php">Add User</a></p>';
-echo '<table border="1" cellpadding="6" cellspacing="0" width="100%"><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Active</th><th>Created</th></tr>';
+echo '<div class="d-flex justify-content-between align-items-center"><h2>Users</h2><a class="btn btn-sm btn-success" href="user-add.php">Add User</a></div>';
+echo '<div class="card mt-3 shadow-sm"><div class="card-body">';
+echo '<div class="table-responsive">';
+echo '<table class="table table-striped table-hover datatable">';
+echo '<thead class="table-light"><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Active</th><th>Created</th></tr></thead><tbody>';
 while ($r = $res->fetch_assoc()) {
     $role_label = ($r['role_id']==1)?'Admin':(($r['role_id']==2)?'Staff':'Citizen');
     echo '<tr>';
@@ -28,6 +30,6 @@ while ($r = $res->fetch_assoc()) {
     echo '<td>' . htmlspecialchars($r['created_at']) . '</td>';
     echo '</tr>';
 }
-echo '</table>';
+echo '</tbody></table></div></div></div>';
 
 include __DIR__ . '/../includes/footer.php';

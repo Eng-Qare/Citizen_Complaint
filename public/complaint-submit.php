@@ -46,31 +46,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 include __DIR__ . '/../includes/header.php';
 include __DIR__ . '/../includes/navbar.php';
-
-if ($error) echo "<p style='color:red;'>" . htmlspecialchars($error) . "</p>";
+if ($error) echo "<div class='alert alert-danger'>" . htmlspecialchars($error) . "</div>";
 ?>
-<h2>Submit Complaint</h2>
-<div id="complaint-message"></div>
-<form id="complaint-form" method="post">
-  <label>Service<select name="service_id" required>
-    <option value="">-- Select --</option>
-    <?php foreach ($services as $s): ?>
-      <option value="<?= (int)$s['service_id'] ?>"><?= htmlspecialchars($s['service_name']) ?></option>
-    <?php endforeach; ?>
-  </select></label>
-  <label>Area<select name="area_id" required>
-    <option value="">-- Select --</option>
-    <?php foreach ($areas as $a): ?>
-      <option value="<?= (int)$a['area_id'] ?>"><?= htmlspecialchars($a['district_name'] . ' - ' . $a['neighborhood_name']) ?></option>
-    <?php endforeach; ?>
-  </select></label>
-  <label>Priority<select name="priority_id">
-    <?php foreach ($priorities as $p): ?>
-      <option value="<?= (int)$p['priority_id'] ?>"><?= htmlspecialchars($p['priority_name']) ?></option>
-    <?php endforeach; ?>
-  </select></label>
-  <label>Description<textarea name="description" rows="6" required></textarea></label>
-  <button type="submit">Submit</button>
-</form>
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h3 class="card-title">Submit Complaint</h3>
+    <div id="complaint-message"></div>
+    <form id="complaint-form" method="post">
+      <div class="mb-3">
+        <label class="form-label">Service</label>
+        <select class="form-select" name="service_id" required>
+          <option value="">-- Select --</option>
+          <?php foreach ($services as $s): ?>
+            <option value="<?= (int)$s['service_id'] ?>"><?= htmlspecialchars($s['service_name']) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Area</label>
+        <select class="form-select" name="area_id" required>
+          <option value="">-- Select --</option>
+          <?php foreach ($areas as $a): ?>
+            <option value="<?= (int)$a['area_id'] ?>"><?= htmlspecialchars($a['district_name'] . ' - ' . $a['neighborhood_name']) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Priority</label>
+        <select class="form-select" name="priority_id">
+          <?php foreach ($priorities as $p): ?>
+            <option value="<?= (int)$p['priority_id'] ?>"><?= htmlspecialchars($p['priority_name']) ?></option>
+          <?php endforeach; ?>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" name="description" rows="6" required></textarea>
+      </div>
+      <div class="d-grid"><button class="btn btn-primary" type="submit">Submit</button></div>
+    </form>
+  </div>
+</div>
 
 <?php include __DIR__ . '/../includes/footer.php'; ?>
