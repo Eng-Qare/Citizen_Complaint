@@ -50,7 +50,8 @@ include __DIR__ . '/../includes/navbar.php';
 if ($error) echo "<p style='color:red;'>" . htmlspecialchars($error) . "</p>";
 ?>
 <h2>Submit Complaint</h2>
-<form method="post">
+<div id="complaint-message"></div>
+<form id="complaint-form" method="post">
   <label>Service<select name="service_id" required>
     <option value="">-- Select --</option>
     <?php foreach ($services as $s): ?>
